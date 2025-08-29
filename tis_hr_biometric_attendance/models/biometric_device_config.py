@@ -32,11 +32,31 @@ class BiometricDeviceConfig(models.Model):
             if conn:
                 zk.disable_device()
                 zk.enable_device()
-                raise UserError(_("Connection Success"))
+                #raise UserError(_("Connection Success"))
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': _('Success'),
+                        'message': _('Connection successful!'),
+                        'type': 'success',  # types: success, warning, danger, info
+                        'sticky': False,
+                    }
+                }
             else:
                 raise ValidationError(_("Connection Failed"))
         except Exception as e:
-            raise UserError(_(e))
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Failed'),
+                    'message': (_(e)),
+                    'type': 'danger',  # types: success, warning, danger, info
+                    'sticky': False,
+                }
+            }
+            #raise UserError(_(e))
 
     def sync_employees(self):
         uid = 0

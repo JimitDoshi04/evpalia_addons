@@ -30,7 +30,8 @@
                         <group>
                             <field name="is_password_set"/>
                             <field name="device_password" password="True"
-                                   attrs="{'invisible':[('is_password_set','=', False)], 'required': [('is_password_set', '=', True)]}"/>
+                                   invisible='not is_password_set'
+                                   required='is_password_set'/>
                             <field name="time_zone"/>
                         </group>
                     </group>
@@ -43,19 +44,19 @@
         <field name="name">biometric.config.tree</field>
         <field name="model">biometric.config</field>
         <field name="arch" type="xml">
-            <tree string="Biometric Device">
+            <list string="Biometric Device">
                 <field name="name"/>
                 <field name="device_ip"/>
                 <field name="port"/>
                 <field name="time_zone"/>
-            </tree>
+            </list>
         </field>
     </record>
 
     <record id="action_biometric_device_config_view" model="ir.actions.act_window">
         <field name="name">Biometric Device Config</field>
         <field name="res_model">biometric.config</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to config a new biometric device.
